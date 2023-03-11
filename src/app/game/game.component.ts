@@ -7,12 +7,13 @@ import {
   collection,
   collectionData,
   doc,
+  docData,
   Firestore,
   getDoc,
-  getFirestore,
+  getDocs,
   setDoc,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { async, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -23,6 +24,7 @@ import { ActivatedRoute } from '@angular/router';
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
   game!: Game;
+  gameInfo!: Observable<any>;
   gameCollections$!: Observable<any>;
   newGameList!: Array<any>;
   currentCard!: string;
@@ -37,25 +39,28 @@ export class GameComponent implements OnInit {
     this.newGame();
     this.route.params.subscribe(async (params) => {
       console.log(params['id']);
+      const allGameRef = collection(this.firestore, 'games');
+      this.gameCollections$ = collectionData(allGameRef);
+      const docRef = doc(collection(this.firestore, 'games'), params['id']);
+      this.gameCollections$.subscribe((game) => {
+        console.log('all Games', game);
+        // Update the game object or do any other logic here
+      });
+      this.gameInfo = docData(docRef);
+      this.gameInfo.subscribe((game) => {
+        console.log('gameUpdate', game);
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.playedCards = game.playedCards;
+        this.game.players = game.players;
+        this.game.stack = game.stack;
+        // Update the game object or do any other logic here
+      });
+
       // const coll = collection(this.firestore, 'games');
       // this.gameCollections$ = collectionData(coll);
-      // this.gameCollections$.subscribe(async (newGameHosted) => {
-      //   console.log('a new game has been hosted', newGameHosted);
+      // this.gameCollections$.subscribe(async (game) => {
+      //   console.log('game Updated', game);
       // });
-
-      const db = getFirestore();
-      const docRef = doc(db, 'games', params['id']);
-
-      try {
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          console.log(docSnap.data());
-        } else {
-          console.log('Document does not exist');
-        }
-      } catch (error) {
-        console.log(error);
-      }
     });
   }
 
@@ -72,8 +77,8 @@ export class GameComponent implements OnInit {
     if (!this.pickCardAnimation && this.game.stack.length >= 1) {
       this.currentCard = this.game.stack.pop() || '';
       this.pickCardAnimation = true;
-      // console.log('new Card', this.currentCard);
-      // console.log('Game is', this.game);
+      console.log('new Card', this.currentCard);
+      console.log('Game is', this.game);
       this.game.currentPlayer++;
       this.game.currentPlayer =
         this.game.currentPlayer % this.game.players.length;
