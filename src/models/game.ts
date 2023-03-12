@@ -3,7 +3,8 @@ export class Game {
   public stack: string[] = [];
   public playedCards: string[] = [];
   public currentPlayer: number = 0;
-
+  public pickCardAnimation = false;
+  public currentCard: string = '';
   //   public playedCards: (string | undefined)[] = [];   <--- kann man dodgen indem man direkt das objekt als string array definiert und in der ts eine ifabfrage macht um zu umgehen das undefined gepusht wird
 
   constructor() {
@@ -21,8 +22,10 @@ export class Game {
     return {
       players: this.players,
       stack: this.stack,
-      playedcards: this.playedCards,
+      playedCards: this.playedCards,
       currentPlayer: this.currentPlayer,
+      pickCardAnimation: this.pickCardAnimation,
+      currentCard: this.currentCard,
     };
   }
 

@@ -25,12 +25,11 @@ import { update } from '@firebase/database';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-  pickCardAnimation = false;
   game!: Game;
   gameInfo$!: Observable<any>;
   gameCollections$!: Observable<any>;
   newGameList!: Array<any>;
-  currentCard!: string;
+
   gameId!: string;
 
   constructor(
@@ -65,9 +64,11 @@ export class GameComponent implements OnInit {
         this.game.playedCards = game.playedCards;
         this.game.players = game.players;
         this.game.stack = game.stack;
+        this.game.currentCard = game.currentCard;
+        this.game.pickCardAnimation = game.pickCardAnimation;
+        console.log('current Games', game);
         // Update the game object or do any other logic here
       });
-      console.log('Game is', this.game.playedCards);
 
       // const coll = collection(this.firestore, 'games');
       // this.gameCollections$ = collectionData(coll);
@@ -86,6 +87,7 @@ export class GameComponent implements OnInit {
   }
 
   async saveGame() {
+    //Vlt add doch stattt updateDoc in zeile 97 benutzen bzw probieren
     // const db = getFirestore();
     // const docRef = doc(collection(this.firestore, 'games'), this.gameId);
     // const docRef = doc(db, 'games', this.gameId);
@@ -104,20 +106,22 @@ export class GameComponent implements OnInit {
 
   async takeCard() {
     // const card = this.game.stack.length
-    if (!this.pickCardAnimation && this.game.stack.length >= 1) {
-      this.currentCard = this.game.stack.pop() || '';
-      this.pickCardAnimation = true;
-      console.log('new Card', this.currentCard);
+    if (!this.game.pickCardAnimation && this.game.stack.length >= 1) {
+      this.game.currentCard = this.game.stack.pop() || '';
+      this.game.pickCardAnimation = true;
+      console.log('new Card', this.game.currentPlayer);
       console.log('Game is', this.game);
       this.game.currentPlayer++;
       this.game.currentPlayer =
         this.game.currentPlayer % this.game.players.length;
+      await this.saveGame();
 
-      setTimeout(() => {
-        if (this.currentCard) {
-          this.game.playedCards.push(this.currentCard);
+      setTimeout(async () => {
+        if (this.game.currentCard) {
+          this.game.playedCards.push(this.game.currentCard);
+          this.game.pickCardAnimation = false;
+          await this.saveGame();
         }
-        this.pickCardAnimation = false;
       }, 1000);
     }
   }
@@ -128,8 +132,7 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (name: string) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
-        // await this.saveGame();
-        console.log('The dialog was closed', name);
+        await this.saveGame();
       }
     });
   }
