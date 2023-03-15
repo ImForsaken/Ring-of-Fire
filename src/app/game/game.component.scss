@@ -53,6 +53,71 @@
   bottom: 32px;
   left: 100px;
   right: 100px;
+  @media (max-width: 720px) {
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.scrollContainerDesktop {
+  height: 90vh;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  @media (max-width: 720px) {
+    display: none;
+  }
+}
+
+.scrollContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  app-player-mobile {
+    margin-left: 8px;
+  }
+
+  @media (min-width: 720px) {
+    display: none;
+  }
+}
+
+app-player,
+app-player-mobile {
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.gameOver {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  img {
+    width: 300px;
+  }
+}
+
+.preloadImage {
+  opacity: 0;
+  z-index: -999999;
 }
 
 @keyframes pickCardAnimation {
