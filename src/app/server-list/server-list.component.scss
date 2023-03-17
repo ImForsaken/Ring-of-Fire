@@ -1,0 +1,16 @@
+::ng-deep app-server-list {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: fit-content;
+}
+
+.serverId {
+  margin-top: 5px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    font-weight: 700;
+    background-color: #3edc3f;
+  }
+}

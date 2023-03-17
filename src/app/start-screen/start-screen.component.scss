@@ -1,5 +1,5 @@
 .startScreen {
-  background-color: #404040;
+  background-color: black;
   width: 100vw;
   height: 100vh;
   max-width: 100%;
@@ -20,12 +20,12 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 50px;
+  bottom: 30px;
   display: flex;
   justify-content: center;
 
   img {
-    width: 35vw;
+    width: 500px;
     height: auto;
 
     &:hover {
@@ -37,8 +37,12 @@
       width: 400px;
     }
 
-    @media (max-width: 960px) {
-      width: 250px;
+    @media (max-width: 560px) {
+      width: 260px;
+    }
+
+    @media (max-width: 460px) {
+      width: 240px;
     }
   }
 }

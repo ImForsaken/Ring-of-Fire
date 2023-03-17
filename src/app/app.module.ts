@@ -23,6 +23,8 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
+import { ServerListComponent } from './server-list/server-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     GameInfoComponent,
     PlayerMobileComponent,
     EditPlayerComponent,
+    ServerListComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     MatFormFieldModule,
     FormsModule,
     MatCardModule,
+    MatExpansionModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),

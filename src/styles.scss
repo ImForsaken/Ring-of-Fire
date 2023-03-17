@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 * {
-  font-family: "Chango", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 html,
@@ -27,5 +27,38 @@ body {
 @media (min-width: 720px) {
   .hideDesktop {
     display: none;
+  }
+}
+
+app-dialog-add-player {
+  * {
+    color: white !important;
+  }
+}
+
+.mat-mdc-dialog-surface {
+  background-color: #293133 !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: #293133;
+}
+
+.cdk-global-scrollblock {
+  overflow-y: hidden;
+}
+
+.confirmBtn {
+  &:hover {
+    background-color: #3edc3f !important;
+  }
+}
+
+.closeBtn {
+  &:hover {
+    background-color: #fff !important;
+    span {
+      color: black !important;
+    }
   }
 }

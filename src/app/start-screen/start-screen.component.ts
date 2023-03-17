@@ -3,7 +3,11 @@ import {
   addDoc,
   collection,
   doc,
+  DocumentData,
   Firestore,
+  getDocs,
+  getFirestore,
+  QuerySnapshot,
   setDoc,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -29,7 +33,5 @@ export class StartScreenComponent implements OnInit {
       .catch((error) => {
         console.error('Error adding game: ', error);
       });
-
-    // let gameInfo = await setDoc(doc(coll), this.game.toJson());
   }
 }

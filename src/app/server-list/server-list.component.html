@@ -1,0 +1,10 @@
+<mat-accordion>
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Server list
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p (click)="joinGame(id)" class="serverId" *ngFor="let id of serverList">{{ id }}</p>
+    </mat-expansion-panel>
+</mat-accordion>
