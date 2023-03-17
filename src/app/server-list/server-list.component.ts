@@ -25,25 +25,11 @@ export class ServerListComponent implements OnInit {
     return this.firestoreService.serverList;
   }
 
-  // serverIds$!: Observable<any>;
-  // serverList: string[] = [];
   ngOnInit(): void {
     this.firestoreService.getAllIds();
-    // this.getAllIds();
   }
 
   joinGame(id: string) {
     this.router.navigateByUrl('/game/' + id);
   }
-
-  // async getAllIds() {
-  //   const db = getFirestore();
-  //   const collectionRef = collection(db, 'games');
-
-  //   this.serverIds$ = collectionData(collectionRef, { idField: 'id' });
-  //   this.serverIds$.subscribe((games) => {
-  //     this.serverList = games.map((game: { id: any }) => game.id);
-  //     console.log(this.serverList);
-  //   });
-  // }
 }
