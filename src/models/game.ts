@@ -9,7 +9,7 @@ export class Game {
   //   public playedCards: (string | undefined)[] = [];   <--- kann man dodgen indem man direkt das objekt als string array definiert und in der ts eine ifabfrage macht um zu umgehen das undefined gepusht wird
 
   constructor() {
-    for (let i = 1; i < 14; i++) {
+    for (let i = 1; i < 1; i++) {
       this.stack.push('spade_' + i);
       this.stack.push('hearts_' + i);
       this.stack.push('clubs_' + i);

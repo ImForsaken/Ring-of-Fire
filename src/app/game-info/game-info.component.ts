@@ -40,9 +40,17 @@ export class GameInfoComponent implements OnInit, OnChanges {
       description:
         'Pick a mate. Your mate must always drink when you drink and the other way around.',
     },
-    { title: 'Thumbmaster', description: '' },
+    {
+      title: 'Thumbmaster',
+      description:
+        'Dip your Thumb in a drink from another player and let him drink',
+    },
     { title: 'Men', description: 'All men drink.' },
-    { title: 'Quizmaster', description: '' },
+    {
+      title: 'Quizmaster',
+      description:
+        'Imagine a Quizquestion, everyone who doesnt know the answer need to drink',
+    },
     {
       title: 'Never have i ever...',
       description:
