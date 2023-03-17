@@ -8,10 +8,13 @@ import {
   collectionData,
   doc,
   docData,
+  DocumentData,
+  DocumentReference,
   Firestore,
   getDoc,
   getDocs,
   getFirestore,
+  onSnapshot,
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
@@ -19,6 +22,7 @@ import { async, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { update } from '@firebase/database';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
+import { FirestoreService } from '../firestore.service';
 
 @Component({
   selector: 'app-game',
@@ -28,37 +32,35 @@ import { EditPlayerComponent } from '../edit-player/edit-player.component';
 export class GameComponent implements OnInit {
   game!: Game;
   gameInfo$!: Observable<any>;
-  gameCollections$!: Observable<any>;
   newGameList!: Array<any>;
   gameOver: boolean = false;
+  docRef!: DocumentReference<DocumentData>;
   gameId!: string;
+  // gameCollections$!: Observable<any>;
 
   constructor(
     private route: ActivatedRoute,
     private firestore: Firestore,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private firestoreService: FirestoreService
   ) {}
+
+  get destroySubscription() {
+    return this.firestoreService.destroySubscription();
+  }
 
   async ngOnInit(): Promise<void> {
     await this.newGame();
-
+    this.firestoreService.destroySubscription();
     this.route.params.subscribe(async (params) => {
       this.gameId = params['id'];
-      console.log(params['id']);
-      //gets complete collection of alle registrated games
-      const allGameRef = collection(this.firestore, 'games');
-      //gets us a observable so we can allow to track data
-      this.gameCollections$ = collectionData(allGameRef);
-      // with subscribe we always get notified if changes where made to the collection
-      this.gameCollections$.subscribe((game) => {
-        console.log('all Games', game);
-        // Update the game object or do any other logic here
-      });
-
       //gets us the specific game from our collection
-      const docRef = doc(collection(this.firestore, 'games'), params['id']);
+      this.docRef = doc(collection(this.firestore, 'games'), params['id']);
+      onSnapshot(this.docRef, (docSnap) => {
+        console.log('game has been updated', docSnap.data());
+      });
       //allows us to get a observable so we can track changes
-      this.gameInfo$ = docData(docRef);
+      this.gameInfo$ = docData(this.docRef);
       //subscribe will notify us if changes where made to the specific game
       this.gameInfo$.subscribe((game) => {
         this.game.currentPlayer = game.currentPlayer;
@@ -96,8 +98,6 @@ export class GameComponent implements OnInit {
     } else if (!this.game.pickCardAnimation && this.game.stack.length >= 1) {
       this.game.currentCard = this.game.stack.pop() || '';
       this.game.pickCardAnimation = true;
-      console.log('new Card', this.game.currentPlayer);
-      console.log('Game is', this.game);
       this.game.currentPlayer++;
       this.game.currentPlayer =
         this.game.currentPlayer % this.game.players.length;
