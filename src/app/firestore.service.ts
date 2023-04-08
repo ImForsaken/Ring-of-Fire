@@ -27,9 +27,11 @@ export class FirestoreService {
   async getAllIds() {
     this.db = getFirestore();
     this.collectionRef = collection(this.db, 'games');
-
+    //gives us a observable object(no data til subscribe)
     this.serverIds$ = collectionData(this.collectionRef, { idField: 'id' });
+    //only with a subscribe we can get data from the observable
     this.subscription = this.serverIds$.subscribe((games) => {
+      //Mapping data so we can have the id´s as string in a array
       this.serverList = games.map((game: { id: any }) => game.id);
       console.log(this.serverList);
     });
