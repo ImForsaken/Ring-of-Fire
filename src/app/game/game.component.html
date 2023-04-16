@@ -6,9 +6,6 @@
     <app-player-mobile (click)="editPlayer(i)" *ngFor="let player of game.players; let i = index" [name]="player"
         [playerActive]="i == game.currentPlayer" [image]="game.playerImages[i]"></app-player-mobile>
 </div>
-<p class="credits">Board image by <a
-        href="https://www.freepik.com/free-vector/gradient-hexagonal-background_13859436.htm#query=dark%20gaming%20background&position=5&from_view=keyword&track=ais">Freepik</a>
-</p>
 <div class="gameOver" *ngIf="gameOver">
     <img src="./assets/img/game_over.png">
 </div>
@@ -16,7 +13,6 @@
 
 <div class="field" *ngIf="!gameOver">
     <div class="cardStack">
-
         <!-- card stack -->
         <img [ngStyle]="{'right.px': i * 5, 'border-radius.px': 5}" *ngFor="let c of [0, 1, 2, 3, 4]; let i = index;"
             src="assets/img/cards/card_cover.png">
